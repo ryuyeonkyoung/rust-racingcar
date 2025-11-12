@@ -28,44 +28,44 @@ impl Car {
             position,
         }
     }
-    fn getPosition(&mut self) -> String {
+    fn get_position(&mut self) -> String {
         "-".repeat(self.position as usize)
     }
 }
 
-fn userInput() -> String{
-    let mut userInput = String::new();
-    io::stdin().read_line(&mut userInput).unwrap();
-    userInput.trim().to_string()
+fn user_input() -> String{
+    let mut user_input = String::new();
+    io::stdin().read_line(&mut user_input).unwrap();
+    user_input.trim().to_string()
 }
 
-fn getCars() -> Vec<Car> {
+fn get_cars() -> Vec<Car> {
     let mut cars: Vec<Car> = Vec::new();
-    let userInput = userInput();
+    let user_input = user_input();
     // 파서로 쪼개기
-    let carNames: Vec<&str> = userInput.split(",").collect();
+    let car_names: Vec<&str> = user_input.split(",").collect();
     // 차 리스트 만들기
-    for name in carNames {
-        let newCar: Car = Car::new(name.parse().unwrap(), 0);
-        cars.push(newCar)
+    for name in car_names {
+        let new_car: Car = Car::new(name.parse().unwrap(), 0);
+        cars.push(new_car)
     }
      cars
 }
 
-fn getTryNum() -> u32 {
-    let rawInput = userInput();
-    let tryNum = rawInput.parse::<u32>().unwrap();
-    tryNum
+fn get_try_num() -> u32 {
+    let raw_input = user_input();
+    let try_num = raw_input.parse::<u32>().unwrap();
+    try_num
 }
 
 fn main() {
     println!("경주 할 자동차 이름(이름은 쉼표(,) 기준으로 구분)");
-    let cars: Vec<Car> = getCars();
+    let cars: Vec<Car> = get_cars();
 
     println!("시도할 회수는 몇회인가요?");
-    let tryNum = getTryNum();
+    let try_num = get_try_num();
 
-    println!("{}", tryNum);
+    println!("{}", try_num);
 
     println!("실행 결과");
     println!("최종 우승자 :");
