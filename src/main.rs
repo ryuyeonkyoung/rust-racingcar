@@ -31,6 +31,12 @@ impl Car {
     fn get_position(&mut self) -> String {
         "-".repeat(self.position as usize)
     }
+    fn get_result(&mut self) -> String {
+        let mut result = self.name;
+        result.push_str(" : ");
+        result.push_str(self.get_position());
+        result
+    }
 }
 
 fn user_input() -> String{
@@ -65,8 +71,9 @@ fn main() {
     println!("시도할 회수는 몇회인가요?");
     let try_num = get_try_num();
 
-    println!("{}", try_num);
-
     println!("실행 결과");
+    // 실행 후 Cars 리스트 반환
+    // 반환값을 파라미터로 넣어 실행 결과 출력
+
     println!("최종 우승자 :");
 }
