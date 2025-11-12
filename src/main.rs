@@ -36,7 +36,7 @@ impl Car {
 fn userInput() -> String{
     let mut userInput = String::new();
     io::stdin().read_line(&mut userInput).unwrap();
-    userInput
+    userInput.trim().to_string()
 }
 
 fn getCars() -> Vec<Car> {
@@ -53,8 +53,9 @@ fn getCars() -> Vec<Car> {
 }
 
 fn getTryNum() -> u32 {
-    let userInput = userInput();
-    userInput.parse().unwrap()
+    let rawInput = userInput();
+    let tryNum = rawInput.parse::<u32>().unwrap();
+    tryNum
 }
 
 fn main() {
@@ -63,6 +64,8 @@ fn main() {
 
     println!("시도할 회수는 몇회인가요?");
     let tryNum = getTryNum();
+
+    println!("{}", tryNum);
 
     println!("실행 결과");
     println!("최종 우승자 :");
