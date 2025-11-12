@@ -39,9 +39,17 @@ fn userInput() -> String{
     userInput
 }
 
-fn getCars() {
+fn getCars() -> Vec<Car> {
+    let mut cars: Vec<Car> = Vec::new();
     let userInput = userInput();
-
+    // 파서로 쪼개기
+    let carNames: Vec<&str> = userInput.split(",").collect();
+    // 차 리스트 만들기
+    for name in carNames {
+        let newCar: Car = Car::new(name.parse().unwrap(), 0);
+        cars.push(newCar)
+    }
+     cars
 }
 
 fn getTryNum() -> u32 {
@@ -51,7 +59,7 @@ fn getTryNum() -> u32 {
 
 fn main() {
     println!("경주 할 자동차 이름(이름은 쉼표(,) 기준으로 구분)");
-    // let cars: Vec<Car> = getCars();
+    let cars: Vec<Car> = getCars();
 
     println!("시도할 회수는 몇회인가요?");
     let tryNum = getTryNum();
