@@ -19,6 +19,15 @@ struct Car {
 }
 
 impl Car {
+    fn new(name: String, position: u32) -> Self {
+        if name.is_empty() {
+            panic!("[ERROR] 차 이름은 비어있을 수 없습니다.");
+        }
+        Self {
+            name,
+            position,
+        }
+    }
     fn getPosition(&mut self) -> String {
         "-".repeat(self.position as usize)
     }
