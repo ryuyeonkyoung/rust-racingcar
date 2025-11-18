@@ -1,5 +1,7 @@
+use std::hash::RandomState;
 use std::io;
 use std::num::FpCategory::Infinite;
+use rand::{random, random_range};
 
 struct Cars {
     cars: Vec<Car>
@@ -55,19 +57,14 @@ impl Car {
         "-".repeat(self.position as usize)
     }
     fn get_result(&mut self) -> String {
-        let mut result = self.name.clone();
+        let mut result = self.name.clone(); // TODO: “If you see clone(), ask yourself why.”
         result.push_str(" : ");
         result.push_str(&self.get_position_string());
         result
     }
 }
 
-fn user_input() -> String{
-    let mut user_input = String::new();
-    io::stdin().read_line(&mut user_input).unwrap();
-    user_input.trim().to_string()
-}
-
+// ------ 입력 ------
 fn get_cars() -> Vec<Car> {
     let mut cars: Vec<Car> = Vec::new();
     let user_input = user_input();
@@ -81,10 +78,29 @@ fn get_cars() -> Vec<Car> {
      cars
 }
 
+fn user_input() -> String{
+    let mut user_input = String::new();
+    io::stdin().read_line(&mut user_input).unwrap();
+    user_input.trim().to_string()
+}
+
 fn get_try_num() -> u32 {
     let raw_input = user_input();
     let try_num = raw_input.parse::<u32>().unwrap();
     try_num
+}
+
+// ----- 레이싱 시작 ------
+fn start_racing(try_num: u32, cars: Cars) -> Vec<Cars> {
+    todo!()
+}
+
+fn can_move() -> bool {
+    let random_num = random_range(0..=9);
+    if random_num >= 4 {
+        return true;
+    }
+    false
 }
 
 fn main() {
@@ -95,7 +111,7 @@ fn main() {
     let try_num = get_try_num();
 
     println!("실행 결과");
-    // let history: Vec<Cars> = start_racing(try_num, cars); // TODO: cars move 문제 해결
+    let history: Vec<Cars> = start_racing(try_num, cars); // TODO: cars move 문제 해결
 
     println!("최종 우승자 :");
     // print_results(cars.get_winners_name());
