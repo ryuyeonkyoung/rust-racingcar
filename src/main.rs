@@ -1,7 +1,6 @@
-use std::hash::RandomState;
+use itertools::Itertools;
+use rand::random_range;
 use std::io;
-use std::num::FpCategory::Infinite;
-use rand::{random, random_range};
 
 #[derive(Clone)]
 struct Cars {
@@ -29,15 +28,12 @@ impl Cars {
         max
     }
     fn get_winners_name(&self) -> String {
-        let mut winners_name = String::new();
         let max = self.get_max_position();
-        // for문을 돌면서 유저의 이름 추가 (a, b)
-        for car in &self.cars {
-            if max == car.position {
-                winners_name.push_str(&car.name);
-            }
-        }
-        winners_name
+        self.cars
+            .iter()
+            .filter(|c| c.position == max)
+            .map(|c| c.name.as_str())
+            .join(", ")
     }
     fn get_result(&self) -> String {
         let mut result = String::new();
@@ -146,5 +142,6 @@ fn main() {
     println!("{}", get_history(&history));
 
     println!("최종 우승자 :");
-    // print_results(cars.get_winners_name());
+    let result: String = history.last().unwrap().get_winners_name();
+    println!("{}", result);
 }
