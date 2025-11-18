@@ -82,9 +82,7 @@ impl Car {
 fn get_cars() -> Vec<Car> {
     let mut cars: Vec<Car> = Vec::new();
     let user_input = user_input();
-    // 파서로 쪼개기
     let car_names: Vec<&str> = user_input.split(",").collect();
-    // 차 리스트 만들기
     for name in car_names {
         let new_car: Car = Car::new(name.parse().unwrap(), 0); // TODO: unwrap 미권장
         cars.push(new_car)
@@ -117,16 +115,10 @@ fn get_history(history: &Vec<Cars>) -> String {
 // ----- 레이싱 시작 ------
 fn start_racing(try_num: u32, mut cars: Cars) -> Vec<Cars> {
     let mut history: Vec<Cars> = Vec::new();
-
-    // TODO: 반복문 scope 고려
     for _ in 1..=try_num {
-        // 1. Cars.one_turn 실행
         cars.one_turn();
-
-        // 2. history에 저장
         history.push(cars.clone());
     }
-
     history
 }
 
