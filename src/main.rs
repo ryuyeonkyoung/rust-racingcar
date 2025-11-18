@@ -39,6 +39,14 @@ impl Cars {
         }
         winners_name
     }
+    fn get_result(&self) -> String {
+        let mut result = String::new();
+        for car in &self.cars {
+            result.push_str(&car.get_result());
+            result.push('\n');
+        }
+        result
+    }
 }
 
 #[derive(Clone)]
@@ -59,7 +67,7 @@ impl Car {
     }
     fn one_turn(&mut self) {
         if (Self::can_move()) {
-            self.position = self.position + 1;
+            self.position += 1;
         }
     }
     fn can_move() -> bool {
@@ -100,6 +108,16 @@ fn get_try_num() -> u32 {
     try_num
 }
 
+// ------ 출력 ------
+fn get_history(history: &Vec<Cars>) -> String {
+    let mut history_display = String::new();
+    for cars in history {
+        history_display.push_str(&cars.get_result());
+        history_display.push('\n');
+    }
+    history_display
+}
+
 // ----- 레이싱 시작 ------
 fn start_racing(try_num: u32, mut cars: Cars) -> Vec<Cars> {
     let mut history: Vec<Cars> = Vec::new();
@@ -124,7 +142,8 @@ fn main() {
     let try_num = get_try_num();
 
     println!("실행 결과");
-    let history: Vec<Cars> = start_racing(try_num, cars); // TODO: cars move 문제 해결
+    let history: Vec<Cars> = start_racing(try_num, cars);
+    println!("{}", get_history(&history));
 
     println!("최종 우승자 :");
     // print_results(cars.get_winners_name());
