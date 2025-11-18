@@ -21,20 +21,23 @@ struct Car {
 impl Car {
     fn new(name: String, position: u32) -> Self {
         if name.is_empty() {
-            panic!("[ERROR] 차 이름은 비어있을 수 없습니다.");
+            panic!("[ERROR] 차 이름은 비어있을 수 없습니다."); // TODO: Result로 복구 가능한 에러 처리하기
         }
         Self {
             name,
             position,
         }
     }
-    fn get_position(&mut self) -> String {
+    fn one_step(&mut self) {
+        self.position = self.position + 1;
+    }
+    fn get_position_string(&mut self) -> String {
         "-".repeat(self.position as usize)
     }
     fn get_result(&mut self) -> String {
-        let mut result = self.name;
+        let mut result = self.name.clone();
         result.push_str(" : ");
-        result.push_str(self.get_position());
+        result.push_str(&*self.get_position_string());
         result
     }
 }
@@ -65,7 +68,7 @@ fn get_try_num() -> u32 {
 }
 
 fn main() {
-    println!("경주 할 자동차 이름(이름은 쉼표(,) 기준으로 구분)");
+    println!("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
     let cars: Vec<Car> = get_cars();
 
     println!("시도할 회수는 몇회인가요?");
