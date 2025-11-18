@@ -1,17 +1,37 @@
 use std::io;
+use std::num::FpCategory::Infinite;
 
-// struct Cars {
-//     cars: Vec<Car>
-// }
-//
-// impl Cars {
-//     fn printResult(&mut self) {
-//
-//     }
-//     fn getWinners(&mut self) -> String {
-//
-//     }
-// }
+struct Cars {
+    cars: Vec<Car>
+}
+
+impl Cars {
+    fn new (cars: Vec<Car>) -> Self{
+        Self {
+            cars,
+        }
+    }
+    fn get_max_position(&mut self) -> u32 {
+        let mut max = 0;
+        for car in &self.cars {
+            if car.position > max {
+                max = car.position;
+            }
+        }
+        max
+    }
+    fn get_winners_name(&mut self) -> String {
+        let mut winners_name = String::new();
+        let max = self.get_max_position();
+        // for문을 돌면서 유저의 이름 추가 (a, b)
+        for car in &self.cars { // TODO: 소유권 문제 해결
+            if max == car.position {
+                winners_name.push_str(&car.name);
+            }
+        }
+        winners_name
+    }
+}
 
 struct Car {
     name: String,
@@ -37,7 +57,7 @@ impl Car {
     fn get_result(&mut self) -> String {
         let mut result = self.name.clone();
         result.push_str(" : ");
-        result.push_str(&*self.get_position_string());
+        result.push_str(&self.get_position_string());
         result
     }
 }
@@ -69,14 +89,14 @@ fn get_try_num() -> u32 {
 
 fn main() {
     println!("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
-    let cars: Vec<Car> = get_cars();
+    let cars: Cars = Cars::new(get_cars());
 
     println!("시도할 회수는 몇회인가요?");
     let try_num = get_try_num();
 
     println!("실행 결과");
-    // 실행 후 Cars 리스트 반환
-    // 반환값을 파라미터로 넣어 실행 결과 출력
+    // let history: Vec<Cars> = start_racing(try_num, cars); // TODO: cars move 문제 해결
 
     println!("최종 우승자 :");
+    // print_results(cars.get_winners_name());
 }
