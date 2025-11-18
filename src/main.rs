@@ -3,6 +3,7 @@ use std::io;
 use std::num::FpCategory::Infinite;
 use rand::{random, random_range};
 
+#[derive(Clone)]
 struct Cars {
     cars: Vec<Car>
 }
@@ -13,7 +14,12 @@ impl Cars {
             cars,
         }
     }
-    fn get_max_position(&mut self) -> u32 {
+    fn one_turn(&mut self) {
+        for car in &mut self.cars {
+            car.one_turn();
+        }
+    }
+    fn get_max_position(&self) -> u32 {
         let mut max = 0;
         for car in &self.cars {
             if car.position > max {
@@ -22,11 +28,11 @@ impl Cars {
         }
         max
     }
-    fn get_winners_name(&mut self) -> String {
+    fn get_winners_name(&self) -> String {
         let mut winners_name = String::new();
         let max = self.get_max_position();
         // for문을 돌면서 유저의 이름 추가 (a, b)
-        for car in &self.cars { // TODO: 소유권 문제 해결
+        for car in &self.cars {
             if max == car.position {
                 winners_name.push_str(&car.name);
             }
@@ -35,6 +41,7 @@ impl Cars {
     }
 }
 
+#[derive(Clone)]
 struct Car {
     name: String,
     position: u32
@@ -57,19 +64,13 @@ impl Car {
     }
     fn can_move() -> bool {
         let random_num = random_range(0..=9);
-        if random_num >= 4 {
-            return true;
-        }
-        false
+        random_num >= 4
     }
-    fn get_position_string(&mut self) -> String {
+    fn get_position_string(&self) -> String {
         "-".repeat(self.position as usize)
     }
-    fn get_result(&mut self) -> String {
-        let mut result = self.name.clone(); // TODO: “If you see clone(), ask yourself why.”
-        result.push_str(" : ");
-        result.push_str(&self.get_position_string());
-        result
+    fn get_result(&self) -> String {
+        format!("{} : {}", self.name, self.get_position_string())
     }
 }
 
@@ -81,10 +82,10 @@ fn get_cars() -> Vec<Car> {
     let car_names: Vec<&str> = user_input.split(",").collect();
     // 차 리스트 만들기
     for name in car_names {
-        let new_car: Car = Car::new(name.parse().unwrap(), 0);
+        let new_car: Car = Car::new(name.parse().unwrap(), 0); // TODO: unwrap 미권장
         cars.push(new_car)
     }
-     cars
+    cars
 }
 
 fn user_input() -> String{
@@ -100,16 +101,16 @@ fn get_try_num() -> u32 {
 }
 
 // ----- 레이싱 시작 ------
-fn start_racing(try_num: u32, cars: Cars) -> Vec<Cars> {
-    let mut curr_cars: Cars = cars;
+fn start_racing(try_num: u32, mut cars: Cars) -> Vec<Cars> {
     let mut history: Vec<Cars> = Vec::new();
 
     // TODO: 반복문 scope 고려
     for _ in 1..=try_num {
-        // 각각의 차를 판단해 움직이기
+        // 1. Cars.one_turn 실행
+        cars.one_turn();
 
-
-        // history.push(curr_cars.clone());
+        // 2. history에 저장
+        history.push(cars.clone());
     }
 
     history
