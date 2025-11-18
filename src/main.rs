@@ -50,8 +50,17 @@ impl Car {
             position,
         }
     }
-    fn one_step(&mut self) {
-        self.position = self.position + 1;
+    fn one_turn(&mut self) {
+        if (Self::can_move()) {
+            self.position = self.position + 1;
+        }
+    }
+    fn can_move() -> bool {
+        let random_num = random_range(0..=9);
+        if random_num >= 4 {
+            return true;
+        }
+        false
     }
     fn get_position_string(&mut self) -> String {
         "-".repeat(self.position as usize)
@@ -92,15 +101,18 @@ fn get_try_num() -> u32 {
 
 // ----- 레이싱 시작 ------
 fn start_racing(try_num: u32, cars: Cars) -> Vec<Cars> {
-    todo!()
-}
+    let mut curr_cars: Cars = cars;
+    let mut history: Vec<Cars> = Vec::new();
 
-fn can_move() -> bool {
-    let random_num = random_range(0..=9);
-    if random_num >= 4 {
-        return true;
+    // TODO: 반복문 scope 고려
+    for _ in 1..=try_num {
+        // 각각의 차를 판단해 움직이기
+
+
+        // history.push(curr_cars.clone());
     }
-    false
+
+    history
 }
 
 fn main() {
