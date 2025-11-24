@@ -84,7 +84,7 @@ fn get_cars() -> Vec<Car> {
     let user_input = user_input();
     let car_names: Vec<&str> = user_input.split(",").collect();
     for name in car_names {
-        let new_car: Car = Car::new(name.parse().unwrap(), 0); // TODO: unwrap 미권장
+        let new_car: Car = Car::new(name.trim().to_string(), 0);
         cars.push(new_car)
     }
     cars
@@ -97,6 +97,7 @@ fn user_input() -> String{
 }
 
 fn get_try_num() -> u32 {
+    // TODO: loop를 통해 올바를 정수를 입력받을 때까지 시도
     let raw_input = user_input();
     let try_num = raw_input.parse::<u32>().unwrap();
     try_num
@@ -117,7 +118,7 @@ fn start_racing(try_num: u32, mut cars: Cars) -> Vec<Cars> {
     let mut history: Vec<Cars> = Vec::new();
     for _ in 1..=try_num {
         cars.one_turn();
-        history.push(cars.clone());
+        history.push(cars.clone()); // TODO: 대체 방법 고민
     }
     history
 }
